@@ -1,6 +1,6 @@
 // app/components/Login.jsx
 "use client";
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
@@ -17,11 +17,6 @@ const firebaseConfig = {
   measurementId: "G-F40Z9HC6P0",
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -29,10 +24,21 @@ const Login = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [auth, setAuth] = useState(null);
+  const [googleProvider, setGoogleProvider] = useState(null);
 
+  useEffect(() => {
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const authInstance = getAuth(app);
+    const provider = new GoogleAuthProvider();
+    setAuth(authInstance);
+    setGoogleProvider(provider);
+  }, []);
   // Handle email/password login
   const handleEmailLogin = async (e) => {
     e.preventDefault();
+    if (!auth) return; // Wait for auth to initialize
     setLoading(true);
     setError(null);
 
