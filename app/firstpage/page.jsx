@@ -97,7 +97,7 @@ const WorkflowBuilder = () => {
                     <button>Pin</button>
                     <button className="border border-black py-2 px-4">Execute</button>
                     <button
-                      className="border border-black py-2 px-4"
+                      className="border border-black py-2 px-4 cursor-pointer"
                       onClick={() => handleEdit(workflow.id)}
                     >
                       Edit
